@@ -1,7 +1,9 @@
+import EventList from "@/components/EventList";
+
 export default function Home() {
   return (
     <div className="">
-      <h1>Welcome Ticket MarketPlace</h1>
+      <EventList />
     </div>
   );
 }
