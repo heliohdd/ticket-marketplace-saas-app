@@ -1,8 +1,8 @@
 "use client";
 
-// import { api } from "@/convex/_generated/api";
-// import { useQuery } from "convex/react";
-// import { Id } from "@/convex/_generated/dataModel";
+import { api } from "@/convex/_generated/api";
+import { useQuery } from "convex/react";
+import { Id } from "@/convex/_generated/dataModel";
 // import {
 //   CalendarDays,
 //   MapPin,
@@ -14,17 +14,19 @@
 //   PencilIcon,
 //   StarIcon,
 // } from "lucide-react";
-// import { useUser } from "@clerk/nextjs";
+import { useUser } from "@clerk/nextjs";
 // import PurchaseTicket from "./PurchaseTicket";
-// import { useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 // import { useStorageUrl } from "@/lib/utils";
 // import Image from "next/image";
 
-export default function EventCard() {
-  // export default function EventCard({ eventId }: { eventId: Id<"events"> }) {
-  // const { user } = useUser();
-  // const router = useRouter();
-  // const event = useQuery(api.events.getById, { eventId });
+export default function EventCard({ eventId }: { eventId: Id<"events"> }) {
+  const { user } = useUser();
+  const router = useRouter();
+  const event = useQuery(api.events.getById, { eventId });
+
+  console.log(user, router, event);
+
   // const availability = useQuery(api.events.getEventAvailability, { eventId });
   // const userTicket = useQuery(api.tickets.getUserTicketForEvent, {
   //   eventId,
@@ -151,7 +153,7 @@ export default function EventCard() {
   // };
 
   return (
-    <div>Event Card to Remove div</div>
+    <div>Event Card to Render as Upcoming or Past Events</div>
     // <div
     //   onClick={() => router.push(`/event/${eventId}`)}
     // className={`bg-white rounded-xl shadow-sm hover:shadow-lg transition-all duration-300 border border-gray-100 cursor-pointer overflow-hidden relative ${
