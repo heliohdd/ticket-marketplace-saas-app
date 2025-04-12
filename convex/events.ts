@@ -339,7 +339,7 @@ export const getEventAvailability = query({
               t.status === TICKET_STATUS.USED
           ).length
       );
-    //     // Count current valid offers
+    // Count current valid offers
     const now = Date.now();
     const activeOffers = await ctx.db
       .query("waitingList")

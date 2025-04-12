@@ -7,14 +7,14 @@ import { useQuery } from "convex/react";
 import { CalendarDays, MapPin, Ticket, Users } from "lucide-react";
 import { useParams } from "next/navigation";
 import Spinner from "@/components/Spinner";
-// import JoinQueue from "@/components/JoinQueue";
-// import { SignInButton, useUser } from "@clerk/nextjs";
+import JoinQueue from "@/components/JoinQueue";
+import { SignInButton, useUser } from "@clerk/nextjs";
 import { useStorageUrl } from "@/lib/utils";
 import Image from "next/image";
-// import { Button } from "@/components/ui/button";
+import { Button } from "@/components/ui/button";
 
 export default function EventPage() {
-  // const { user } = useUser();
+  const { user } = useUser();
   const params = useParams();
   const event = useQuery(api.events.getById, {
     eventId: params.id as Id<"events">,
@@ -116,7 +116,7 @@ export default function EventPage() {
                 <div className="sticky top-8 space-y-4">
                   <EventCard eventId={params.id as Id<"events">} />
 
-                  {/* {user ? (
+                  {user ? (
                     <JoinQueue
                       eventId={params.id as Id<"events">}
                       userId={user.id}
@@ -127,7 +127,7 @@ export default function EventPage() {
                         Sign in to buy tickets
                       </Button>
                     </SignInButton>
-                  )} */}
+                  )}
                 </div>
               </div>
             </div>
