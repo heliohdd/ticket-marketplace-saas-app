@@ -1,8 +1,7 @@
 "use client";
 
 import { api } from "@/convex/_generated/api";
-import { useQuery } from "convex/react";
-// import { useMutation, useQuery } from "convex/react";
+import { useMutation, useQuery } from "convex/react";
 import { Id } from "@/convex/_generated/dataModel";
 import { WAITING_LIST_STATUS } from "@/convex/constants";
 import Spinner from "./Spinner";
@@ -18,7 +17,7 @@ export default function JoinQueue({
   userId: string;
 }) {
   const { toast } = useToast();
-  // const joinWaitingList = useMutation(api.events.joinWaitingList);
+  const joinWaitingList = useMutation(api.events.joinWaitingList);
   const queuePosition = useQuery(api.waitingList.getQueuePosition, {
     eventId,
     userId,

@@ -159,6 +159,7 @@ export const expireOffer = internalMutation({
   },
   handler: async (ctx, { waitingListId, eventId }) => {
     const offer = await ctx.db.get(waitingListId);
+
     if (!offer || offer.status !== WAITING_LIST_STATUS.OFFERED) return;
 
     await ctx.db.patch(waitingListId, {
