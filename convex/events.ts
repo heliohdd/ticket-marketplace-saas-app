@@ -141,8 +141,10 @@ export const joinWaitingList = mutation({
     const event = await ctx.db.get(eventId);
     if (!event) throw new Error("Event not found");
 
-    //     Check if there are any available tickets right now
-    const { available } = await checkAvailability(ctx, { eventId });
+    //  ### Check if there are any available tickets right now
+    const available = true;
+    //  TODO: const { available } = await checkAvailability(ctx, { eventId });
+
     const now = Date.now();
 
     if (available) {

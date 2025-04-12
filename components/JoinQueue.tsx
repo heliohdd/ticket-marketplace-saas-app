@@ -33,10 +33,11 @@ export default function JoinQueue({
 
   const handleJoinQueue = async () => {
     try {
-      // const result = await joinWaitingList({ eventId, userId });
-      // if (result.success) {
-      //   console.log("Successfully joined waiting list");
-      // }
+      const result = await joinWaitingList({ eventId, userId });
+
+      if (result.success) {
+        console.log("Successfully joined waiting list");
+      }
     } catch (error) {
       if (
         error instanceof ConvexError &&
