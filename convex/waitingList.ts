@@ -224,7 +224,7 @@ export const releaseTicket = mutation({
       throw new Error("No valid ticket offer found");
     }
 
-    // // Mark the entry as expired
+    // Mark the entry as expired
     await ctx.db.patch(waitingListId, {
       status: WAITING_LIST_STATUS.EXPIRED,
     });
