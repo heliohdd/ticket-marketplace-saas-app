@@ -1,18 +1,18 @@
 "use client";
 
-// import { createStripeConnectAccountLink } from "@/app/actions/createStripeConnectAccountLink";
-// import { createStripeConnectCustomer } from "@/app/actions/createStripeConnectCustomer";
+import { createStripeConnectAccountLink } from "@/app/actions/createStripeConnectAccountLink";
+import { createStripeConnectCustomer } from "@/app/actions/createStripeConnectCustomer";
 import { api } from "@/convex/_generated/api";
 import { useUser } from "@clerk/nextjs";
 import { useQuery } from "convex/react";
 
 import { useRouter } from "next/navigation";
 import React, { useState, useEffect } from "react";
-// import { createStripeConnectLoginLink } from "@/app/actions/createStripeConnectLoginLink";
-// import { getStripeConnectAccountStatus } from "@/app/actions/getStripeConnectAccountStatus";
-// import type { AccountStatus } from "@/app/actions/getStripeConnectAccountStatus";
+import { createStripeConnectLoginLink } from "@/app/actions/createStripeConnectLoginLink";
+import { getStripeConnectAccountStatus } from "@/app/actions/getStripeConnectAccountStatus";
+import type { AccountStatus } from "@/app/actions/getStripeConnectAccountStatus";
 import { CalendarDays, Cog, Plus } from "lucide-react";
-// import Link from "next/link";
+import Link from "next/link";
 import Spinner from "./Spinner";
 
 export default function SellerDashboard() {
@@ -20,19 +20,17 @@ export default function SellerDashboard() {
   const [accountLinkCreatePending, setAccountLinkCreatePending] =
     useState(false);
   const [error, setError] = useState(false);
-
-  const [accountStatus, setAccountStatus] = useState(null);
-  // const [accountStatus, setAccountStatus] = useState<AccountStatus | null>(
-  //   null
-  // );
+  const [accountStatus, setAccountStatus] = useState<AccountStatus | null>(
+    null
+  );
   const router = useRouter();
   const { user } = useUser();
   const stripeConnectId = useQuery(api.users.getUsersStripeConnectId, {
     userId: user?.id || "",
   });
 
-  // const isReadyToAcceptPayments =
-  //   accountStatus?.isActive && accountStatus?.payoutsEnabled;
+  const isReadyToAcceptPayments =
+    accountStatus?.isActive && accountStatus?.payoutsEnabled;
 
   useEffect(() => {
     if (stripeConnectId) {
@@ -46,10 +44,10 @@ export default function SellerDashboard() {
 
   const handleManageAccount = async () => {
     try {
-      // if (stripeConnectId && accountStatus?.isActive) {
-      //   const loginUrl = await createStripeConnectLoginLink(stripeConnectId);
-      //   window.location.href = loginUrl;
-      // }
+      if (stripeConnectId && accountStatus?.isActive) {
+        const loginUrl = await createStripeConnectLoginLink(stripeConnectId);
+        window.location.href = loginUrl;
+      }
     } catch (error) {
       console.error("Error accessing Stripe Connect portal:", error);
       setError(true);
@@ -59,8 +57,8 @@ export default function SellerDashboard() {
   const fetchAccountStatus = async () => {
     if (stripeConnectId) {
       try {
-        // const status = await getStripeConnectAccountStatus(stripeConnectId);
-        // setAccountStatus(status);
+        const status = await getStripeConnectAccountStatus(stripeConnectId);
+        setAccountStatus(status);
       } catch (error) {
         console.error("Error fetching account status:", error);
       }
@@ -79,7 +77,7 @@ export default function SellerDashboard() {
         </div>
 
         {/* Main Content */}
-        {/* {isReadyToAcceptPayments && (
+        {isReadyToAcceptPayments && (
           <>
             <div className="bg-white p-8 rounded-lg">
               <h2 className="text-2xl font-semibold text-gray-900 mb-6">
@@ -110,7 +108,7 @@ export default function SellerDashboard() {
 
             <hr className="my-8" />
           </>
-        )} */}
+        )}
 
         <div className="p-6">
           {/* Account Creation Section */}
@@ -128,7 +126,7 @@ export default function SellerDashboard() {
                   setAccountCreatePending(true);
                   setError(false);
                   try {
-                    // await createStripeConnectCustomer();
+                    await createStripeConnectCustomer();
                     setAccountCreatePending(false);
                   } catch (error) {
                     console.error(
@@ -157,16 +155,16 @@ export default function SellerDashboard() {
                     Account Status
                   </h3>
                   <div className="mt-2 flex items-center">
-                    {/* <div
+                    <div
                       className={`w-3 h-3 rounded-full mr-2 ${
                         accountStatus.isActive
                           ? "bg-green-500"
                           : "bg-yellow-500"
                       }`}
-                    /> */}
-                    {/* <span className="text-lg font-semibold">
+                    />
+                    <span className="text-lg font-semibold">
                       {accountStatus.isActive ? "Active" : "Pending Setup"}
-                    </span> */}
+                    </span>
                   </div>
                 </div>
 
@@ -175,7 +173,7 @@ export default function SellerDashboard() {
                   <h3 className="text-sm font-medium text-gray-500">
                     Payment Capability
                   </h3>
-                  {/* <div className="mt-2 space-y-1">
+                  <div className="mt-2 space-y-1">
                     <div className="flex items-center">
                       <svg
                         className={`w-5 h-5 ${
@@ -220,17 +218,17 @@ export default function SellerDashboard() {
                           : "Cannot receive payouts yet"}
                       </span>
                     </div>
-                  </div> */}
+                  </div>
                 </div>
               </div>
 
               {/* Requirements Section */}
-              {/* {accountStatus.requiresInformation && ( */}
-              <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4">
-                <h3 className="text-sm font-medium text-yellow-800 mb-3">
-                  Required Information
-                </h3>
-                {/* {accountStatus.requirements.currently_due.length > 0 && (
+              {accountStatus.requiresInformation && (
+                <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4">
+                  <h3 className="text-sm font-medium text-yellow-800 mb-3">
+                    Required Information
+                  </h3>
+                  {accountStatus.requirements.currently_due.length > 0 && (
                     <div className="mb-3">
                       <p className="text-yellow-800 font-medium mb-2">
                         Action Required:
@@ -241,8 +239,8 @@ export default function SellerDashboard() {
                         ))}
                       </ul>
                     </div>
-                  )} */}
-                {/* {accountStatus.requirements.eventually_due.length > 0 && (
+                  )}
+                  {accountStatus.requirements.eventually_due.length > 0 && (
                     <div>
                       <p className="text-yellow-800 font-medium mb-2">
                         Eventually Needed:
@@ -255,9 +253,9 @@ export default function SellerDashboard() {
                         )}
                       </ul>
                     </div>
-                  )} */}
-                {/* Only show Add Information button if there are requirements */}
-                {/* {!accountLinkCreatePending && (
+                  )}
+                  {/* Only show Add Information button if there are requirements */}
+                  {!accountLinkCreatePending && (
                     <button
                       onClick={async () => {
                         setAccountLinkCreatePending(true);
@@ -280,21 +278,21 @@ export default function SellerDashboard() {
                     >
                       Complete Requirements
                     </button>
-                  )} */}
-              </div>
-              {/* )} */}
+                  )}
+                </div>
+              )}
 
               {/* Action Buttons */}
               <div className="flex flex-wrap gap-3 mt-6">
-                {/* {accountStatus.isActive && ( */}
-                <button
-                  onClick={handleManageAccount}
-                  className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors flex items-center"
-                >
-                  <Cog className="w-4 h-4 mr-2" />
-                  Seller Dashboard
-                </button>
-                {/* )} */}
+                {accountStatus.isActive && (
+                  <button
+                    onClick={handleManageAccount}
+                    className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors flex items-center"
+                  >
+                    <Cog className="w-4 h-4 mr-2" />
+                    Seller Dashboard
+                  </button>
+                )}
                 <button
                   onClick={fetchAccountStatus}
                   className="bg-gray-100 text-gray-700 px-4 py-2 rounded-lg hover:bg-gray-200 transition-colors"
