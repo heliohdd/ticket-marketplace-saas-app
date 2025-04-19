@@ -4,7 +4,7 @@ const nextConfig: NextConfig = {
   // eslint: { ignoreDuringBuilds: true },
   images: {
     remotePatterns: [
-      { hostname: "accurate-parrot-654.convex.cloud", protocol: "https" },
+      { hostname: "shiny-sardine-41.convex.cloud", protocol: "https" },
     ],
   },
 };
